@@ -1,25 +1,30 @@
 $name = Read-Host "Имя сервиса"
-Write-Host "🚀 Создаю $name..." -ForegroundColor Green
 
+Write-Host "🚀 Клонирую репозиторий..." -ForegroundColor Green
 npx degit whatisloveg/service-template $name
-cd $name
 
+cd $name
+Write-Host "✓ Репозиторий скопирован" -ForegroundColor Green
+
+Write-Host "⏳ Переименовываю проект в $name..." -ForegroundColor Yellow
 if (Test-Path "src/.env.example") {
     Copy-Item src/.env.example src/.env
     (Get-Content src/.env) -replace 'template-service', $name | Set-Content src/.env
+    Write-Host "✓ Проект переименован" -ForegroundColor Green
 }
 
+Write-Host "⏳ Удаляю install.ps1..." -ForegroundColor Yellow
 Remove-Item "install.ps1" -Force -ErrorAction SilentlyContinue
+Write-Host "✓ install.ps1 удален" -ForegroundColor Green
 
 cd src
-Write-Host "⏳ Устанавливаю зависимости..." -ForegroundColor Yellow
-
+Write-Host "⏳ Создаю виртуальное окружение..." -ForegroundColor Yellow
 python -m venv .venv
-& .\.venv\Scripts\python.exe -m pip install --upgrade pip -q
-& .\.venv\Scripts\pip.exe install -r requirements.txt -q
+Write-Host "✓ Виртуальное окружение создано" -ForegroundColor Green
 
-Write-Host "✅ Готово!" -ForegroundColor Green
-Write-Host "Запуск:" -ForegroundColor Cyan
-Write-Host "  cd $name\src" -ForegroundColor Cyan
-Write-Host "  .\.venv\Scripts\activate" -ForegroundColor Cyan
-Write-Host "  uvicorn app.web_app:app --port 8001" -ForegroundColor Cyan
+Write-Host "⏳ Устанавливаю зависимости из requirements.txt..." -ForegroundColor Yellow
+& .\.venv\Scripts\pip.exe install -r ..\requirements.txt -q
+Write-Host "✓ Зависимости установлены" -ForegroundColor Green
+
+Write-Host ""
+Write-Host "✅ Проект $name готов к разработке!" -ForegroundColor Green
