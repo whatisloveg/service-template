@@ -62,6 +62,7 @@ class DBConfig(BaseSettings):
 
 
 class RabbitMQConfig(BaseSettings):
+    ENABLED: bool = True
     USER: str
     PASS: str
     HOST: str
@@ -71,6 +72,11 @@ class RabbitMQConfig(BaseSettings):
     def url(self) -> str:
         """Собирает AMQP URL из компонентов"""
         return f"amqp://{self.USER}:{self.PASS}@{self.HOST}:{self.PORT}/"
+
+    @property
+    def is_configured(self) -> bool:
+        """Проверка, настроен ли RabbitMQ"""
+        return self.ENABLED and bool(self.USER and self.PASS and self.HOST)
 
     class Config:
         env_prefix = "RABBITMQ_"
