@@ -6,7 +6,7 @@ from app.core.settings import config
 from app.core.logger import logger
 
 
-async def wait_for_db(max_attempts: int = 10, delay: int = 2):
+async def wait_for_db(max_attempts: int = 3, delay: int = 2):
     """Ждём пока БД станет доступна"""
     engine = create_async_engine(
         config.db_cfg.sqlalchemy_async_database_uri,
