@@ -1,0 +1,3 @@
+class BaseExampleException(Exception):
+    """Базовый класс для пользовательских исключений"""
+    ...

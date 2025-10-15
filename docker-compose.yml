@@ -1,0 +1,29 @@
+services:
+   app:
+     build:
+       context: .
+     container_name: template_service_name
+     restart: unless-stopped
+     env_file:
+       - .env
+     ports:
+       - "127.0.0.1:7002:8000"
+     networks:
+       - postgres_network
+       - rabbitmq_rabbit-net
+       - loki_default
+     deploy:
+       resources:
+         limits:
+           cpus: "1"
+           memory: "1500MB"
+     logging:
+       driver: "none"
+
+networks:
+   postgres_network:
+     external: true
+   rabbitmq_rabbit-net:
+     external: true
+   loki_default:
+     external: true
