@@ -3,14 +3,31 @@ from pydantic_settings import BaseSettings
 from pydantic import PostgresDsn, field_validator, ValidationInfo
 from dotenv import load_dotenv
 
-# Загружаем переменные из .env файла
 load_dotenv()
 
 
+class AppConfig(BaseSettings):
+    """Общие настройки приложения"""
+    SERVICE_NAME: str = "notify-service"
+    ENVIRONMENT: str = "production"
+    TZ: str = "Europe/Moscow"
+
+    class Config:
+        env_prefix = ""
+
+
+class LoggingConfig(BaseSettings):
+    """Конфигурация логирования"""
+    LOG_LEVEL: str = "INFO"
+    LOKI_URL: str = "http://loki:3100/loki/api/v1/push"
+    LOKI_ENABLED: bool = True
+
+    class Config:
+        env_prefix = ""
+
+
 class DBConfig(BaseSettings):
-    """
-    Конфигурация PostgreSQL
-    """
+    """Конфигурация PostgreSQL"""
     HOST: str
     USER: str
     PASSWORD: str
@@ -67,12 +84,27 @@ class QueuesConfig(BaseSettings):
         env_prefix = "QUEUE_"
 
 
+class RedisConfig(BaseSettings):
+    """Конфигурация Redis"""
+    HOST: str
+    PORT: int = 6379
+
+    @property
+    def url(self) -> str:
+        return f"redis://{self.HOST}:{self.PORT}"
+
+    class Config:
+        env_prefix = "REDIS_"
+
+
 class Settings(BaseSettings):
-    """
-    Контейнер всех настроек приложения
-    """
+    """Контейнер всех настроек приложения"""
+    app_cfg: AppConfig = AppConfig()
+    logging_cfg: LoggingConfig = LoggingConfig()
     db_cfg: DBConfig = DBConfig()
     rabbitmq_cfg: RabbitMQConfig = RabbitMQConfig()
     queues_cfg: QueuesConfig = QueuesConfig()
+    redis_cfg: RedisConfig = RedisConfig()
+
 
 config = Settings()

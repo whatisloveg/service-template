@@ -5,7 +5,7 @@ from app.core.logger import setup_logging
 from app.core.logger import logger
 from app.db import migrations
 
-setup_logging(service_name="notify-service", environment="production")
+setup_logging()
 
 app =  create_app()
 
