@@ -86,16 +86,30 @@ class QueuesConfig(BaseSettings):
 
 class RedisConfig(BaseSettings):
     """Конфигурация Redis"""
-    HOST: str
-    PORT: int = 6379
+    HOST: Optional[str] = None
+    PORT: Optional[int] = None
+
+    @field_validator("HOST", "PORT", mode="before")
+    @classmethod
+    def empty_str_to_none(cls, v):
+        """Преобразует пустые строки в None"""
+        if v == "" or v is None:
+            return None
+        return v
 
     @property
-    def url(self) -> str:
-        return f"redis://{self.HOST}:{self.PORT}"
+    def url(self) -> Optional[str]:
+        if self.HOST and self.PORT:
+            return f"redis://{self.HOST}:{self.PORT}"
+        return None
+
+    @property
+    def is_configured(self) -> bool:
+        """Проверка, настроен ли Redis"""
+        return bool(self.HOST and self.PORT)
 
     class Config:
         env_prefix = "REDIS_"
-
 
 class Settings(BaseSettings):
     """Контейнер всех настроек приложения"""
