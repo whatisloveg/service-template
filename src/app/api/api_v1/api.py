@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.api_v1.endpoints.heath_example import router as health_router
+from app.api.api_v1.endpoints.health import router as health_router
 
 
 

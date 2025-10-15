@@ -2,9 +2,9 @@ from fastapi import APIRouter
 from app.core.logger import logger
 
 
-router = APIRouter(prefix="/notification", tags=["Notification"])
+router = APIRouter(prefix="/health", tags=["Health"])
 
-@router.get("health")
+@router.get("")
 async def health_check():
     """Проверяет здоровье сервера"""
     try:
