@@ -12,17 +12,16 @@ if (Test-Path "src/.env.example") {
 Write-Host "✓ Проект переименован" -ForegroundColor Green
 
 Write-Host "⏳ Удаляю install скрипты..." -ForegroundColor Yellow
-Remove-Item "install.ps1" -Force -ErrorAction SilentlyContinue
-Remove-Item "install.sh" -Force -ErrorAction SilentlyContinue
+Remove-Item "install.ps1","install.sh" -Force -ErrorAction SilentlyContinue
 Write-Host "✓ Скрипты удалены" -ForegroundColor Green
 
-Write-Host "⏳ Создаю виртуальное окружение..." -ForegroundColor Yellow
+Write-Host "⏳ Создаю виртуальное окружение в корне..." -ForegroundColor Yellow
 python -m venv .venv
-Write-Host "✓ Виртуальное окружение создано" -ForegroundColor Green
+Write-Host "✓ .venv создан" -ForegroundColor Green
 
 Write-Host "⏳ Устанавливаю зависимости..." -ForegroundColor Yellow
 & .\.venv\Scripts\pip.exe install -r requirements.txt -q
 Write-Host "✓ Зависимости установлены" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "✅ Проект $name готов к разработке!" -ForegroundColor Green
+Write-Host "✅ Проект $name готов!" -ForegroundColor Green
