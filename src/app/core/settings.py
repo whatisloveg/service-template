@@ -8,7 +8,7 @@ load_dotenv()
 
 class AppConfig(BaseSettings):
     """Общие настройки приложения"""
-    SERVICE_NAME: str = "notify-service"
+    SERVICE_NAME: str = "template-service"
     ENVIRONMENT: str = "production"
     TZ: str = "Europe/Moscow"
 
