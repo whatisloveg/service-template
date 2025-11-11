@@ -4,6 +4,7 @@ import app.models
 from app.core.logger import setup_logging
 from app.core.logger import logger
 from app.db import migrations
+from app.core.settings import config
 
 setup_logging()
 
@@ -19,14 +20,16 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup() -> None:
-    logger.info("Starting application...")
+    logger.info("🚀 Starting %s in %s mode...",
+                config.app_cfg.SERVICE_NAME,
+                config.app_cfg.ENVIRONMENT)
     await migrations.wait_for_db()
     logger.info("DB check completed, starting migrations...")
     await migrations.run_migrations()
     logger.info("All startup tasks completed!")
-    pass
+    logger.info("✅ Application started successfully!")
 
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
-    pass
+    logger.info("🛑 Shutting down application...")
