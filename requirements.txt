@@ -1,4 +1,4 @@
-faststream[rabbit]
+faststream[rabbit] == 0.6.1
 pydantic-settings
 aiohttp
 aio-pika
