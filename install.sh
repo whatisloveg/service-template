@@ -1,5 +1,5 @@
 #!/bin/bash
-read -p "Имя сервиса: " name
+read -p "Имя сервиса: " name < /dev/tty
 echo "🚀 Клонирую репозиторий..."
 git clone https://github.com/whatisloveg/service-template "$name"
 cd "$name" && rm -rf .git
