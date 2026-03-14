@@ -67,6 +67,7 @@ class RabbitMQConfig(BaseSettings):
     PASS: str
     HOST: str
     PORT: int = 5672
+    MAX_RETRY_COUNT: int = 3
 
     @property
     def url(self) -> str:
@@ -84,7 +85,6 @@ class RabbitMQConfig(BaseSettings):
 
 class QueuesConfig(BaseSettings):
     NAME1: str
-    NAME2: str
 
     class Config:
         env_prefix = "QUEUE_"
