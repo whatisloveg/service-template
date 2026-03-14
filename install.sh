@@ -1,8 +1,8 @@
 #!/bin/bash
 read -p "Имя сервиса: " name
 echo "🚀 Клонирую репозиторий..."
-npx degit whatisloveg/service-template $name
-cd $name
+git clone https://github.com/whatisloveg/service-template "$name"
+cd "$name" && rm -rf .git
 echo "✓ Репозиторий скопирован"
 [ -f src/.env.example ] && cp src/.env.example src/.env && sed -i '' "s/template-service/$name/g" src/.env
 echo "✓ Проект переименован"
