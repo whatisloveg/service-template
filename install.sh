@@ -16,7 +16,7 @@ echo "✓ Проект переименован"
 rm -f install.ps1 install.sh
 echo "✓ Скрипты удалены"
 
-python3 -m venv .venv
+python3.12 -m venv .venv
 echo "✓ .venv создан"
 
 .venv/bin/pip install --upgrade pip -q
