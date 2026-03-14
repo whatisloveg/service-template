@@ -19,6 +19,7 @@ echo "✓ Скрипты удалены"
 python3 -m venv .venv
 echo "✓ .venv создан"
 
+.venv/bin/pip install --upgrade pip -q
 .venv/bin/pip install -r requirements.txt -q
 echo "✓ Зависимости установлены"
 
