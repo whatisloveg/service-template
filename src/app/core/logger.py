@@ -7,15 +7,13 @@ from app.core.settings import config
 
 # ContextVars для отслеживания контекста запросов
 request_id_var: ContextVar[str] = ContextVar("request_id", default="unknown")
-user_id_var: ContextVar[str] = ContextVar("user_id", default="unknown")
 
 
 class ContextFilter(logging.Filter):
-    """Добавляет request_id и user_id в каждую запись лога"""
+    """Добавляет request_id в каждую запись лога"""
 
     def filter(self, record):
         record.request_id = request_id_var.get()
-        record.user_id = user_id_var.get()
         return True
 
 
@@ -48,7 +46,7 @@ def setup_logging(
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(getattr(logging, log_level.upper(), logging.INFO))
     console_formatter = logging.Formatter(
-        "[%(request_id)s] [%(user_id)s] %(asctime)s | %(levelname)s | %(funcName)s:%(lineno)d | %(message)s",
+        "[%(request_id)s] %(asctime)s | %(levelname)s | %(funcName)s:%(lineno)d | %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
     console_handler.setFormatter(console_formatter)
@@ -68,7 +66,7 @@ def setup_logging(
             )
             loki_handler.setLevel(getattr(logging, log_level.upper(), logging.INFO))
             loki_formatter = logging.Formatter(
-                "%(request_id)s | %(user_id)s | %(levelname)s | %(funcName)s:%(lineno)d | %(message)s"
+                "%(request_id)s | %(levelname)s | %(funcName)s:%(lineno)d | %(message)s"
             )
             loki_handler.setFormatter(loki_formatter)
             loki_handler.addFilter(context_filter)
